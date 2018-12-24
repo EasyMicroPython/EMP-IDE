@@ -1,0 +1,108 @@
+{
+    "Action": {
+        "Cancle": "取消",
+        "Apply": "应用",
+        "Esc": "退出",
+        "Click": "点击"
+    },
+    "placeholder": {
+        "Editor": "脚本文件",
+        "Uploader": "上传文件",
+        "Search": "搜索",
+        "Modules": "模块",
+        "Docs": "文档",
+        "RunScript": "运行脚本",
+        "MemoryClean": "内存清理",
+        "Connect": "连接到设备",
+        "Settings": "设置"
+    },
+    "BottomBar": {},
+    "Cli": {
+        "DialogTitle": "连接到你的设备",
+        "URL": "URL",
+        "Password": "密码",
+        "Connect": "连接",
+        "Disconnect": "断开连接"
+    },
+    "Editor": {},
+    "Finder": {
+        "Label": "输入以搜索"
+    },
+    "FolderTree": {
+      
+        "Menu": {
+            "File": [
+                {
+                    "text": "运行",
+                    "code": "run"
+                },
+                {
+                    "isdivider": true
+                },
+                {
+                    "text": "重命名",
+                    "code": "rename"
+                },
+                {
+                    "isdivider": true
+                },
+                {
+                    "text": "删除",
+                    "code": "deleteFile"
+                },
+                {
+                    "isdivider": true
+                }
+            ],
+            "Folder": [
+                {
+                    "text": "刷新",
+                    "code": "refresh"
+                },
+                {
+                    "isdivider": true
+                },
+                {
+                    "text": "重命名",
+                    "code": "rename"
+                },
+                {
+                    "isdivider": true
+                },
+                {
+                    "text": "新建文件",
+                    "code": "newFile"
+                },
+                {
+                    "isdivider": true
+                },
+                {
+                    "text": "新建文件夹",
+                    "code": "newFolder"
+                },
+                {
+                    "isdivider": true
+                },
+                {
+                    "text": "删除文件夹",
+                    "code": "deleteFolder"
+                }
+            ]
+        }
+    },
+    "Pypi": {
+        "Download": "下载/更新"
+    },
+    "Settings": {
+        "Title": "设置",
+        "FontSize": "字体大小",
+        "MemoryLimit": "I/O内存限制"
+    },
+    "SideBar": {},
+    "SplitPane": {},
+    "Uploader": {
+        "Upload": "上传",
+        "DragToHere": "拖拽到此处，或"
+    },
+    "README": "     _____  __  __  ____    ___  ____   _____\n    | ____||  \\/  ||  _ \\  |_ _||  _ \\ | ____|\n    |  _|  | |\\/| || |_) |  | | | | | ||  _|\n    | |___ | |  | ||  __/   | | | |_| || |___\n    |_____||_|  |_||_|     |___||____/ |_____|\n\n    Easy MicroPython (EMP) 是一个由1Z实验室主导的开源项目，旨在为广大的\n    MicroPython爱好者提供更加快速和高效的开发体验。\n\n    GitHub:  https://github.com/Fuermohao/EMP-IDE\n    主页：    http://www.1zlab.com\n    文档：    http://www.1zlab.com/wiki/micropython-esp32/emp-ide-userguide/\n\n    在开始使用之前，你需要在你的MicroPython设备上安装 emp-1zlab 模块。请按\n    照如下的步骤进行：\n    \n    import upip\n    upip.install('emp-1zlab')\n\n    import emp_boot\n    emp_boot.set_boot_mode()\n\n    输入2，回车。这将重新覆盖你的 boot.py 文件，之后你的设备将会进行一次重启。\n    重启之后按照命令行中的提示来使你的设备连接至WiFi网络。在这之后，webrepl将会\n    自动开启，默认的连接密码为'1zlab', 你可以在 webrepl.pass 文件中修改它。"
+}

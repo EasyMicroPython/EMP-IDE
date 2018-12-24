@@ -1,17 +1,48 @@
 <!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width,initial-scale=1.0">
-    <link rel="icon" href="<%= BASE_URL %>favicon.ico">
-    <title>emp-ide</title>
-  </head>
-  <body>
-    <noscript>
-      <strong>We're sorry but emp-ide doesn't work properly without JavaScript enabled. Please enable it to continue.</strong>
-    </noscript>
-    <div id="app"></div>
-    <!-- built files will be auto injected -->
-  </body>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <meta name="description" content="1ZLAB EMP-IDE是1Z实验室为广大MicroPython ESP32/ESP8266爱好者所开发的一款微型Web集成开发环境,旨在提高开发效率和开发体验"> 
+  <meta name="keywords" content="EMP-IDE,1ZLAB,1Z实验室,MicroPython,MicroPythonIDE,ESP32,ESP8266,webrepl,成都码立方科技" >
+
+  <link rel="shortcut icon" href="http://src.1zlab.com/1zlab-logo-transparent.png" />
+  <link rel="stylesheet" href="https://unpkg.com/muse-ui/dist/muse-ui.css" >
+  <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.js"></script>
+  <script src="https://unpkg.com/muse-ui/dist/muse-ui.js"></script>
+  <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+  
+  <title>EMP-IDE</title>
+  <style>
+    body {
+      overflow-x: hidden;
+      overflow-y: hidden;
+      height: 100%;
+      width: 100%;
+      background: #1e1e1e;
+    }
+  </style>
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async
+    src="https://www.googletagmanager.com/gtag/js?id=UA-127068587-1"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+      dataLayer.push(arguments);
+    }
+
+    gtag('js', new Date());
+
+    gtag('config', 'UA-127068587-1');
+  </script>
+</head>
+
+<body>
+  <div id="app"></div>
+</body>
+
 </html>

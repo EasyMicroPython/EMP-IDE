@@ -1,0 +1,22 @@
+/* add some cutsom style to content-menu.css */
+
+.v-contextmenu.v-contextmenu--dark, .v-contextmenu.v-contextmenu--dark .v-contextmenu-submenu .v-contextmenu {
+  background-color: #333;
+  border: 1px solid #333;
+  box-shadow: none;
+}
+
+.v-contextmenu.v-contextmenu--dark .v-contextmenu-item {
+  background-color: #333;
+  color: #e0e0e0;
+  padding: 10px 15px;
+}
+
+.v-contextmenu.v-contextmenu--dark .v-contextmenu-item.v-contextmenu-item--hover {
+  background-color: #252526;
+}
+
+.v-contextmenu.v-contextmenu--dark .v-contextmenu-divider {
+  border-bottom: 1px solid #252526;
+  margin: 0;
+}
