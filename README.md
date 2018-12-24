@@ -6,7 +6,7 @@ The EasyMicroPython (EMP) IDE is an open source project led by 1ZLAB to provide 
 
 Inspired by the MicroPython/webrepl project, the EMP IDE leverages its existing communication protocols and modifies the webrepl module to design and implement functional modules that make MicroPython-related interactions easier.
 
-![](http://src.1zlab.com/ide/ide-cn.png)
+![](http://src.1zlab.com/ide/ide-en.png)
 ![](http://src.1zlab.com/ide/ide-feature.png)
 
 ## Future

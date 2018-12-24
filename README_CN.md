@@ -4,7 +4,7 @@ EasyMicroPython(EMP) IDE 是由 1Z 实验室引导的一个开源项目，旨在
 
 EMP IDE 受到了 MicroPython/webrepl 项目的启发，采用了其现有的通信协议，并对 webrepl 模块进行了改造，设计并实现了一些功能模块，这使得与 MicroPython 相关的交互变得更加简单。
 
-![](http://src.1zlab.com/ide/ide-en.png)
+![](http://src.1zlab.com/ide/ide-cn.png)
 ![](http://src.1zlab.com/ide/ide-feature.png)
 
 ## 特性
