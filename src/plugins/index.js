@@ -6,7 +6,6 @@ import Connect from './connect'
 import contentmenu from 'v-contextmenu'
 import 'normalize.css'
 import 'material-design-icons/iconfont/material-icons.css'
-// import 'element-ui/lib/theme-chalk/index.css'
 import 'v-contextmenu/dist/index.css'
 
 const MuseUI = require('muse-ui')
