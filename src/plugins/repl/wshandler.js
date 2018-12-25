@@ -1,37 +1,38 @@
 let wsHandlers = {
     onOpen: function () {
-        this.$ws.term.focus();
-        this.$ws.term.write("Welcome to 1ZLAB-EMPIDE!\r\n");
+        this.$repl.term.focus();
+        this.$repl.term.write("Welcome to 1ZLAB-EMPIDE!\r\n");
 
         // this.$ws.onmessage = this.onMessage;
-        this.$ws.send(this.passwd + "\r");
+        // console.log(this)
+        // console.log(this.passwd);
+        if (this.$replType === 0)
+            this.$ws.send(this.$repl.passwd + "\r");
         this.$ws.send(this.$emp.deviceInfo());
         this.$ws.send(this.$emp.memoryStatus());
         this.$ws.send(this.$emp.tree());
 
         this.$toast.success("WebREPL connected!");
-        if (this.$ws._ws.readyState === 1) {
+        if (this.$ws.readyState === 1) {
             this.$send(this.SIGNAL_REPORT_CONNECTED(this));
-            this.$ws.connected = true;
+            this.$connected = true;
         }
     },
 
     onMessage: function (event) {
         if (event.data instanceof ArrayBuffer) {
             var data = new Uint8Array(event.data);
-            switch (this.$ws.binaryState) {
+            switch (this.$binaryState) {
                 case 11:
                     // first response for put
                     if (this.decodeResp(data) == 0) {
                         // send file data in chunks
                         for (
-                            var offset = 0;
-                            offset < this.$ws.putFileData.length;
-                            offset += 1024
+                            var offset = 0; offset < this.$ws.putFileData.length; offset += 1024
                         ) {
                             this.$ws.send(this.$ws.putFileData.slice(offset, offset + 1024));
                         }
-                        this.$ws.binaryState = 12;
+                        this.$binaryState = 12;
                     }
 
                     break;
@@ -51,7 +52,7 @@ let wsHandlers = {
                     } else {
                         this.$toast.error("Failed sending " + this.$ws.putFilename);
                     }
-                    this.$ws.binaryState = 0;
+                    this.$binaryState = 0;
                     this.$ws.send("\r\r");
                     // this.$ws.send('tree()\r');
                     this.$ws.send(this.$emp.tree());
@@ -63,37 +64,38 @@ let wsHandlers = {
                 case 21:
                     // first response for get
                     if (this.decodeResp(data) == 0) {
-                        this.$ws.binaryState = 22;
+                        this.$binaryState = 22;
                         let rec = new Uint8Array(1);
                         rec[0] = 0;
                         this.$ws.send(rec);
                     }
                     break;
 
-                case 22: {
-                    // file data
-                    var sz = data[0] | (data[1] << 8);
-                    if (data.length == 2 + sz) {
-                        // we assume that the data comes in single chunks
-                        if (sz == 0) {
-                            // end of file
-                            this.$ws.binaryState = 23;
+                case 22:
+                    {
+                        // file data
+                        var sz = data[0] | (data[1] << 8);
+                        if (data.length == 2 + sz) {
+                            // we assume that the data comes in single chunks
+                            if (sz == 0) {
+                                // end of file
+                                this.$binaryState = 23;
+                            } else {
+                                // accumulate incoming data to this.$ws.getFileData
+                                var new_buf = new Uint8Array(this.$ws.getFileData.length + sz);
+                                new_buf.set(this.$ws.getFileData);
+                                new_buf.set(data.slice(2), this.$ws.getFileData.length);
+                                this.$ws.getFileData = new_buf;
+                                // this.$toast.info('Getting ' + this.$ws.getFilename + ', ' + this.$ws.getFileData.length + ' bytes');
+                                var rec = new Uint8Array(1);
+                                rec[0] = 0;
+                                this.$ws.send(rec);
+                            }
                         } else {
-                            // accumulate incoming data to this.$ws.getFileData
-                            var new_buf = new Uint8Array(this.$ws.getFileData.length + sz);
-                            new_buf.set(this.$ws.getFileData);
-                            new_buf.set(data.slice(2), this.$ws.getFileData.length);
-                            this.$ws.getFileData = new_buf;
-                            // this.$toast.info('Getting ' + this.$ws.getFilename + ', ' + this.$ws.getFileData.length + ' bytes');
-                            var rec = new Uint8Array(1);
-                            rec[0] = 0;
-                            this.$ws.send(rec);
+                            this.$binaryState = 0;
                         }
-                    } else {
-                        this.$ws.binaryState = 0;
+                        break;
                     }
-                    break;
-                }
                 case 23:
                     // final response
                     // this.$send(this.SIGNAL_UNLOCK(this)); 为什么在这里无法调用 send函数?
@@ -112,7 +114,7 @@ let wsHandlers = {
                     }
                     this.$ws.getFileData = null;
                     this.$ws.getFilename = null;
-                    this.$ws.binaryState = 0;
+                    this.$binaryState = 0;
                     this.$ws.send("\r\r");
 
                     setTimeout(() => this.slotClearTerm(), 300);
@@ -121,22 +123,22 @@ let wsHandlers = {
         }
 
         try {
-            this.$ws.recData = JSON.parse(event.data);
-            if (this.$ws.recData.func === this.$emp.funcName(this.$emp.tree)) {
-                this.$send(this.SIGNAL_UPDATE_TREE(this, [this.$ws.recData.data]));
-                this.$send(this.SIGNAL_UPDATE_FINDER(this, this.$ws.recData.data));
+            this.$recData = JSON.parse(event.data);
+            if (this.$recData.func === this.$emp.funcName(this.$emp.tree)) {
+                this.$send(this.SIGNAL_UPDATE_TREE(this, [this.$recData.data]));
+                this.$send(this.SIGNAL_UPDATE_FINDER(this, this.$recData.data));
                 this.$send(this.SIGNAL_SHOW_PANE(this));
             }
-            if (this.$ws.recData.func === this.$emp.funcName(this.$emp.getCode))
-                this.$send(this.SIGNAL_SHOW_CODES_PMAX(this, this.$ws.recData.data));
-            if (this.$ws.recData.func === this.$emp.funcName(this.$emp.memoryAnalysing))
+            if (this.$recData.func === this.$emp.funcName(this.$emp.getCode))
+                this.$send(this.SIGNAL_SHOW_CODES_PMAX(this, this.$recData.data));
+            if (this.$recData.func === this.$emp.funcName(this.$emp.memoryAnalysing))
                 this.$send(
-                    this.SIGNAL_DEPENDS_ON_MEMORY_TO_GET_FILE(this, this.$ws.recData.data)
+                    this.SIGNAL_DEPENDS_ON_MEMORY_TO_GET_FILE(this, this.$recData.data)
                 );
-            if (this.$ws.recData.func === this.$emp.funcName(this.$emp.deviceInfo))
-                this.$send(this.SIGNAL_SHOW_SYS_INFO(this, this.$ws.recData.data));
-            if (this.$ws.recData.func === this.$emp.funcName(this.$emp.memoryStatus))
-                this.$send(this.SIGNAL_SHOW_MEMORY_STATUS(this, this.$ws.recData.data));
+            if (this.$recData.func === this.$emp.funcName(this.$emp.deviceInfo))
+                this.$send(this.SIGNAL_SHOW_SYS_INFO(this, this.$recData.data));
+            if (this.$recData.func === this.$emp.funcName(this.$emp.memoryStatus))
+                this.$send(this.SIGNAL_SHOW_MEMORY_STATUS(this, this.$recData.data));
         } catch (e) {
             // 容错处理放在这儿
             if (event.data.indexOf("Traceback (most recent call last):") >= 0) {
@@ -146,11 +148,11 @@ let wsHandlers = {
     },
 
     onClose: function () {
-        this.wsConnected = false;
+        this.$connected = false;
         this.$send(this.SIGNAL_REPORT_DISCONNECTED(this));
         this.$toast.error("Disconnected");
-        if (this.term) {
-            this.term.write("\r\n\x1b[31mDisconnected\x1b[m\r\n");
+        if (this.$repl.term) {
+            this.$repl.term.write("\r\n\x1b[31mDisconnected\x1b[m\r\n");
         }
     },
 

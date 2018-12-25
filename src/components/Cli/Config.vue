@@ -45,15 +45,15 @@ export default {
       passwd: ""
     };
   },
-  mounted: function() {
-    this.$nextTick(function() {
+  mounted: function () {
+    this.$nextTick(function () {
       this.getCookies();
       if (this.$cookie.get("url") != null) {
         this.espIP.push(this.$cookie.get("url"));
       }
       let that = this;
       // try {
-      axios.get("http://www.1zlab.com/ide/get/ip/").then(function(rsp) {
+      axios.get("http://www.1zlab.com/ide/get/ip/").then(function (rsp) {
         let records = rsp.data.ip.map(_ip => `ws://${_ip}:8266`).slice(0, -1);
         that.espIP.push(...records);
         that.url = that.espIP[that.espIP.length - 1];
@@ -64,8 +64,8 @@ export default {
     });
   },
   computed: {
-    buttonText: function() {
-      if (!this.wsStatus) {
+    buttonText: function () {
+      if (!this.$connected) {
         return this.$t("Cli.Connect");
       } else {
         return this.$t("Cli.Disconnect");
@@ -75,7 +75,7 @@ export default {
   methods: {
     connect() {
       this.setCookies();
-      if (!this.wsStatus) {
+      if (!this.$connected) {
         this.$emit("connect", {
           url: this.url,
           passwd: this.passwd

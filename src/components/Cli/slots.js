@@ -1,4 +1,4 @@
-import wsHandlers from "../../handlers/wshandler"
+import wsHandlers from "../../plugins/repl/wshandler"
 
 var slots = {
   methods: {
@@ -20,18 +20,11 @@ var slots = {
     },
 
     slotConnectToDevice(kwargs) {
-      this.passwd = kwargs.passwd;
-      var url = kwargs.url;
-      this.lastCmd = "connect";
-
-      this.$ws.open(this, url, wsHandlers)
-      // this.ws = new WebSocket(url);
-      // this.ws.binaryType = "arraybuffer";
-      this.term.attach(this.$ws._ws, true, true);
-      this.$ws.term = this.term;
-
-      // this.ws.onopen = this.onOpen;
-      // this.ws.onclose = this.onClose;
+      this.$repl.passwd = kwargs.passwd;
+      this.$repl.url = kwargs.url;
+      this.$replStart();
+      this.term.attach(this.$ws, true, true);
+      this.$repl.term = this.term;
     },
 
     slotDisconnect() {

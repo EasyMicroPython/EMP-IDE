@@ -4,11 +4,13 @@ import 'v-contextmenu/dist/index.css'
 import Toast from 'muse-ui-toast'
 import Message from 'muse-ui-message'
 import VueCookie from 'vue-cookie'
-import { MUSE_UI } from '@/config'
+import {
+  MUSE_UI
+} from '@/config'
 import Connect from './connect'
 import contentmenu from 'v-contextmenu'
 import EMP from './emp'
-import Messenger from './messenger'
+import REPL from './repl'
 
 const MuseUI = require('muse-ui')
 const ElementUI = require('element-ui')
@@ -23,7 +25,7 @@ const installer = function (Vue) {
   Vue.use(Connect)
   Vue.use(contentmenu)
   Vue.use(EMP)
-  Vue.use(Messenger)
+  Vue.use(REPL)
 }
 
 export default installer
