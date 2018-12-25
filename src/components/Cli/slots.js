@@ -1,5 +1,3 @@
-import * as emp from "../../plugins/emp";
-
 var slots = {
   methods: {
     slotToggleTermVisible() {
@@ -38,7 +36,7 @@ var slots = {
     slotSendCommands(kwargs) {
       if (!this.tasklock) {
         this.ws.send(kwargs.command);
-        if (kwargs.command.startsWith(emp.funcName(emp.memoryAnalysing))) {
+        if (kwargs.command.startsWith(this.$emp.funcName(this.$emp.memoryAnalysing))) {
           this.$send(this.SIGNAL_LOCK(this));
         }
       } else this.$toast.error("IO busy");
@@ -140,7 +138,7 @@ var slots = {
 
       if (fsize < this.memLimit * mf) {
         // this.ws.send('get_code(\'' + kwargs.filename + '\')\r');
-        this.ws.send(emp.getCode(kwargs.filename));
+        this.ws.send(this.$emp.getCode(kwargs.filename));
       } else {
         this.slotGetFile(kwargs);
       }

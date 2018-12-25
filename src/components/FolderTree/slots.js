@@ -1,5 +1,3 @@
-import * as emp from "../../plugins/emp";
-
 var slots = {
   methods: {
     //打开设置窗口,点击设置按钮时触发
@@ -22,7 +20,7 @@ var slots = {
     slotRunCurrentScript() {
       if (this.currentNode != null)
         this.$send(
-          this.SIGNAL_SEND_COMMAND(this, emp.runScript(this.currentNode.name))
+          this.SIGNAL_SEND_COMMAND(this, this.$emp.runScript(this.currentNode.name))
         );
       else this.$toast.error("No file opened!");
     }

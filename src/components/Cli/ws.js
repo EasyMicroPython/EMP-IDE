@@ -1,4 +1,3 @@
-import * as emp from "../../plugins/emp";
 
 var handleConnection = {
   data() {
@@ -16,14 +15,14 @@ var handleConnection = {
   methods: {
     onOpen: function() {
       this.term.focus();
-      this.term.write("\x1b[34;2mWelcome to 1ZLAB-EMPIDE!\x1b[m\r\n");
+      this.term.write("\x1b[34;2mWelcome to 1ZLAB-this.$empIDE!\x1b[m\r\n");
 
       this.ws.onmessage = this.onMessage;
       this.ws.send(this.passwd + "\r");
       // this.ws.send("tree()\r");
-      this.ws.send(emp.deviceInfo());
-      this.ws.send(emp.memoryStatus());
-      this.ws.send(emp.tree());
+      this.ws.send(this.$emp.deviceInfo());
+      this.ws.send(this.$emp.memoryStatus());
+      this.ws.send(this.$emp.tree());
 
       this.$toast.success("WebREPL connected!");
       if (this.ws.readyState === 1) {
@@ -70,7 +69,7 @@ var handleConnection = {
             this.binaryState = 0;
             this.ws.send("\r\r");
             // this.ws.send('tree()\r');
-            this.ws.send(emp.tree());
+            this.ws.send(this.$emp.tree());
             setTimeout(() => this.$send(this.SIGNAL_PUT_NEXT_FILE(this)), 300);
             setTimeout(() => this.slotClearTerm(), 300);
 
@@ -138,20 +137,20 @@ var handleConnection = {
 
       try {
         this.recData = JSON.parse(event.data);
-        if (this.recData.func === emp.funcName(emp.tree)) {
+        if (this.recData.func === this.$emp.funcName(this.$emp.tree)) {
           this.$send(this.SIGNAL_UPDATE_TREE(this, [this.recData.data]));
           this.$send(this.SIGNAL_UPDATE_FINDER(this, this.recData.data));
           this.$send(this.SIGNAL_SHOW_PANE(this));
         }
-        if (this.recData.func === emp.funcName(emp.getCode))
+        if (this.recData.func === this.$emp.funcName(this.$emp.getCode))
           this.$send(this.SIGNAL_SHOW_CODES_PMAX(this, this.recData.data));
-        if (this.recData.func === emp.funcName(emp.memoryAnalysing))
+        if (this.recData.func === this.$emp.funcName(this.$emp.memoryAnalysing))
           this.$send(
             this.SIGNAL_DEPENDS_ON_MEMORY_TO_GET_FILE(this, this.recData.data)
           );
-        if (this.recData.func === emp.funcName(emp.deviceInfo))
+        if (this.recData.func === this.$emp.funcName(this.$emp.deviceInfo))
           this.$send(this.SIGNAL_SHOW_SYS_INFO(this, this.recData.data));
-        if (this.recData.func === emp.funcName(emp.memoryStatus))
+        if (this.recData.func === this.$emp.funcName(this.$emp.memoryStatus))
           this.$send(this.SIGNAL_SHOW_MEMORY_STATUS(this, this.recData.data));
       } catch (e) {
         // 容错处理放在这儿

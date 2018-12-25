@@ -38,7 +38,6 @@
 <script>
 import signals from "./signals.js";
 import slots from "./slots.js";
-import * as emp from "../../plugins/emp";
 import { isFolder, showContentMenu, hideContentMenu } from "./content-menu";
 
 export default {
@@ -103,8 +102,8 @@ export default {
       if (code === "run") {
         // boot脚本不能让随意运行吧,我觉得
         if (this.menuTarget != "//boot.py")
-          command = emp.runScript(this.menuTarget);
-      } else if (code === "deleteFile") command = emp.delFile(this.menuTarget);
+          command = this.$emp.runScript(this.menuTarget);
+      } else if (code === "deleteFile") command = this.$emp.delFile(this.menuTarget);
       else if (code === "rename") {
         this.$prompt("Filename", "Input a new filename", {
           validator(value) {
@@ -115,7 +114,7 @@ export default {
           }
         }).then(({ result, value }) => {
           if (result) {
-            command = emp.rename(this.menuTarget, value);
+            command = this.$emp.rename(this.menuTarget, value);
             this.$send(this.SIGNAL_SEND_COMMAND(this, command));
           }
         });
@@ -130,12 +129,12 @@ export default {
         }).then(({ result, value }) => {
           if (result) {
             // this.$toast.message('文件名' + value);
-            command = emp.newFile(`${this.menuTarget}/${value}`);
+            command = this.$emp.newFile(`${this.menuTarget}/${value}`);
             this.$send(this.SIGNAL_SEND_COMMAND(this, command));
           }
         });
       } else if (code === "refresh") {
-        command = emp.tree();
+        command = this.$emp.tree();
       } else if (code === "newFolder") {
         this.$prompt("Folder name", "Input a folder name", {
           validator(value) {
@@ -147,12 +146,12 @@ export default {
         }).then(({ result, value }) => {
           if (result) {
             // this.$toast.message('文件名' + value);
-            command = emp.newFolder(`${this.menuTarget}/${value}`);
+            command = this.$emp.newFolder(`${this.menuTarget}/${value}`);
             this.$send(this.SIGNAL_SEND_COMMAND(this, command));
           }
         });
       } else if (code === "deleteFolder")
-        command = emp.delFolder(this.menuTarget);
+        command = this.$emp.delFolder(this.menuTarget);
 
       if (command.length > 0)
         this.$send(this.SIGNAL_SEND_COMMAND(this, command));

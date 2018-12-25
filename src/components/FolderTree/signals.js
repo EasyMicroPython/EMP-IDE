@@ -1,5 +1,3 @@
-import * as emp from "../../plugins/emp";
-
 var signals = {
   methods: {
     SIGNAL_CLEAR(sender, receiver = "cli", slot = "slotClearTerm") {
@@ -26,7 +24,7 @@ var signals = {
         slot: slot,
         kwargs: {
           filename: filename,
-          command: emp.memoryAnalysing(filename)
+          command: this.$emp.memoryAnalysing(filename)
         }
       };
     },
@@ -45,7 +43,7 @@ var signals = {
         slot: slot,
         kwargs: {
           filename: filename,
-          command: emp.getCode(filename)
+          command: this.$emp.getCode(filename)
         }
       };
     },

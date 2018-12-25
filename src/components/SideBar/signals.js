@@ -1,5 +1,3 @@
-import * as emp from "../../plugins/emp";
-
 var signals = {
   methods: {
     // 打开设置窗口,点击设置按钮时触发
@@ -88,7 +86,7 @@ var signals = {
         receiver: receiver,
         slot: slot,
         kwargs: {
-          command: emp.memoryStatus()
+          command: this.$emp.memoryStatus()
         }
       };
     }

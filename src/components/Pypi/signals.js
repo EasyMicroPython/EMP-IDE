@@ -1,5 +1,3 @@
-import * as emp from "../../plugins/emp";
-
 var signals = {
   methods: {
     SIGNAL_INSTALL(sender, pkg, receiver = "cli", slot = "slotSendCommands") {
@@ -9,7 +7,7 @@ var signals = {
         receiver: receiver,
         slot: slot,
         kwargs: {
-          command: emp.install(pkg)
+          command: this.$emp.install(pkg)
         }
       };
     }

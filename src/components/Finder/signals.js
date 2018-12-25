@@ -1,5 +1,3 @@
-import * as emp from "../../plugins/emp";
-
 var signals = {
   methods: {
     //   SIGNAL_SHOW_SELECTED(sender, receiver = 'cli', slot = 'slotSendCommands') {
@@ -26,7 +24,7 @@ var signals = {
         slot: slot,
         kwargs: {
           filename: filename,
-          command: emp.memoryAnalysing(filename)
+          command: this.$emp.memoryAnalysing(filename)
           // command: 'memory_analysing(\'' + filename + '\')\r'
         }
       };
