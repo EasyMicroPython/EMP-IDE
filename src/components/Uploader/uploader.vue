@@ -1,23 +1,25 @@
 <template>
   <div style="background: #252526 !important;height:100%">
-    <mu-flex justify-content="center" align-items="center">
-      <el-upload
-        style="backgroun: #212121"
+    <mu-flex justify-content="center"
+      align-items="center">
+      <el-upload style="backgroun: #212121"
         ref="eluploader"
         drag
         action="https://127.0.0.1/posts/"
         :auto-upload="false"
         :on-change="handleChange"
-        multiple
-      >
+        multiple>
         <i class="el-icon-upload"></i>
         <div class="el-upload__text">
           {{$t('Uploader.DragToHere')}}
           <em>{{$t('Action.Click')}}</em>
         </div>
 
-        <div class="el-upload__tip" slot="tip">
-          <mu-button full-width color="primary" @click="send">{{$t('Uploader.Upload')}}</mu-button>
+        <div class="el-upload__tip"
+          slot="tip">
+          <mu-button full-width
+            color="primary"
+            @click="send">{{$t('Uploader.Upload')}}</mu-button>
         </div>
       </el-upload>
     </mu-flex>
@@ -27,10 +29,9 @@
 <script>
 import signals from "./signals.js";
 import slots from "./slots.js";
-import listener from "../../plugins/mixinEventsListener.js";
-import onEvent from "../../plugins/mixinOnEvents.js";
+
 export default {
-  mixins: [signals, slots, listener, onEvent],
+  mixins: [signals, slots],
   data() {
     return {
       putFilename: [],

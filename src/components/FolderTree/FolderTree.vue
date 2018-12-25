@@ -38,14 +38,12 @@
 <script>
 import signals from "./signals.js";
 import slots from "./slots.js";
-import listener from "../../plugins/mixinEventsListener.js";
-import onEvent from "../../plugins/mixinOnEvents.js";
 import * as emp from "../../plugins/emp";
 import { isFolder, showContentMenu, hideContentMenu } from "./content-menu";
 
 export default {
   name: "folderTree",
-  mixins: [signals, slots, listener, onEvent],
+  mixins: [signals, slots],
   props: [],
   components: {},
   data() {

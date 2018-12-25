@@ -13,8 +13,6 @@
 import Config from "./Config.vue";
 import signals from "./signals.js";
 import slots from "./slots.js";
-import listener from "../../plugins/mixinEventsListener.js";
-import onEvent from "../../plugins/mixinOnEvents.js";
 import handleConnection from "./ws.js";
 import { Terminal } from "xterm";
 import * as fit from "xterm/lib/addons/fit/fit";
@@ -25,7 +23,7 @@ Terminal.applyAddon(attach);
 
 export default {
   name: "cli",
-  mixins: [signals, slots, handleConnection, listener, onEvent],
+  mixins: [signals, slots, handleConnection],
   props: ["tasklock"],
   components: {
     Config

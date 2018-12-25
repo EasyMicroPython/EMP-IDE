@@ -30,10 +30,10 @@
 import MonacoEditor from "./MonacoEditor.vue";
 import signals from "./signals.js";
 import slots from "./slots.js";
-import listener from "../../plugins/mixinEventsListener.js";
-import onEvent from "../../plugins/mixinOnEvents.js";
+
+
 export default {
-  mixins: [signals, slots, listener, onEvent],
+  mixins: [signals, slots],
   components: {
     MonacoEditor
   },

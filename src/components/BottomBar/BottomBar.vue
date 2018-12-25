@@ -40,12 +40,11 @@
 <script>
 import signals from "./signals.js";
 import slots from "./slots.js";
-import listener from "../../plugins/mixinEventsListener.js";
-import onEvent from "../../plugins/mixinOnEvents.js";
-// import signalProp from
+
+
 export default {
   name: "bottomBar",
-  mixins: [signals, slots, listener, onEvent],
+  mixins: [signals, slots],
   props: [],
   data() {
     return {

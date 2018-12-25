@@ -7,8 +7,7 @@
     <mu-flex class="bg"
       direction="row"
       justify-content="start">
-      <side-bar :listener="signals"
-        @events="$connect"></side-bar>
+      <side-bar @events="$connect"></side-bar>
       <split-pane ref="splitVertical"
         @resize="handleResize"
         :min-percent="0"
@@ -19,19 +18,15 @@
           class="left-pane">
           <folder-tree v-show="showFolderTree"
             ref="folderTree"
-            :listener="signals"
             @events="$connect"></folder-tree>
           <uploader ref="uploader"
             v-show="showUploader"
-            :listener="signals"
             @events="$connect"></uploader>
           <finder ref="finder"
             v-show="showFinder"
-            :listener="signals"
             @events="$connect"></finder>
           <pypi ref="pypi"
             v-show="showPypi"
-            :listener="signals"
             @events="$connect"></pypi>
         </template>
 
@@ -43,14 +38,12 @@
             :default-percent="100">
             <template slot="paneL">
               <editor ref="editor"
-                :listener="signals"
                 @events="$connect"
                 class="editor"></editor>
             </template>
             <template slot="paneR">
               <cli ref="cli"
                 :tasklock="tasklock"
-                :listener="signals"
                 @events="$connect"
                 class="terminal-container"></cli>
             </template>
@@ -59,11 +52,9 @@
       </split-pane>
     </mu-flex>
     <setting ref="setting"
-      :listener="signals"
       @events="$connect"
       :show="showSettings"></setting>
     <bottom-bar ref="bottomBar"
-      :listener="signals"
       @events="$connect"></bottom-bar>
   </mu-flex>
 </template>
