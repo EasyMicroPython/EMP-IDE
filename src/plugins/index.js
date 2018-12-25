@@ -8,6 +8,7 @@ import { MUSE_UI } from '@/config'
 import Connect from './connect'
 import contentmenu from 'v-contextmenu'
 import EMP from './emp'
+import Messenger from './messenger'
 
 const MuseUI = require('muse-ui')
 const ElementUI = require('element-ui')
@@ -22,6 +23,7 @@ const installer = function (Vue) {
   Vue.use(Connect)
   Vue.use(contentmenu)
   Vue.use(EMP)
+  Vue.use(Messenger)
 }
 
 export default installer

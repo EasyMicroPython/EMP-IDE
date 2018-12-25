@@ -1,18 +1,18 @@
 let wsHandlers = {
     onOpen: function () {
-        // this.term.focus();
-        // this.term.write("\x1b[34;2mWelcome to 1ZLAB-EMPIDE!\x1b[m\r\n");
+        this.$ws.term.focus();
+        this.$ws.term.write("Welcome to 1ZLAB-EMPIDE!\r\n");
 
-        this.$ws.onmessage = this.onMessage;
+        // this.$ws.onmessage = this.onMessage;
         this.$ws.send(this.passwd + "\r");
         this.$ws.send(this.$emp.deviceInfo());
         this.$ws.send(this.$emp.memoryStatus());
         this.$ws.send(this.$emp.tree());
 
         this.$toast.success("WebREPL connected!");
-        if (this.ws.readyState === 1) {
+        if (this.$ws._ws.readyState === 1) {
             this.$send(this.SIGNAL_REPORT_CONNECTED(this));
-            this.wsConnected = true;
+            this.$ws.connected = true;
         }
     },
 
@@ -164,3 +164,4 @@ let wsHandlers = {
     }
 }
 
+export default wsHandlers

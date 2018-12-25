@@ -1,3 +1,5 @@
+import wsHandlers from "../../handlers/wshandler"
+
 var slots = {
   methods: {
     slotToggleTermVisible() {
@@ -21,12 +23,15 @@ var slots = {
       this.passwd = kwargs.passwd;
       var url = kwargs.url;
       this.lastCmd = "connect";
-      this.ws = new WebSocket(url);
-      this.ws.binaryType = "arraybuffer";
-      this.term.attach(this.ws, true, true);
 
-      this.ws.onopen = this.onOpen;
-      this.ws.onclose = this.onClose;
+      this.$ws.open(this, url, wsHandlers)
+      // this.ws = new WebSocket(url);
+      // this.ws.binaryType = "arraybuffer";
+      this.term.attach(this.$ws._ws, true, true);
+      this.$ws.term = this.term;
+
+      // this.ws.onopen = this.onOpen;
+      // this.ws.onclose = this.onClose;
     },
 
     slotDisconnect() {

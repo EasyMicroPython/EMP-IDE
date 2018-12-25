@@ -2,7 +2,7 @@
   <div class="term cli-scroll-bar"
     ref="terminal">
     <config :show="showConfig"
-      :ws-status="wsConnected"
+      :ws-status="$ws.connected"
       @connect="slotConnectToDevice"
       @disconnect="slotDisconnect"
       @hide="slotToggleConfig"></config>

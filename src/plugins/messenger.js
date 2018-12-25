@@ -4,20 +4,22 @@ var Messenger = {};
 Messenger.install = function (Vue) {
   Vue.prototype.$ws = {
     _ws: null,
+    term: null,
+    connected: false,
     binaryState: 0,
     recData: null,
     putFilename: null,
     putFileData: null,
     getFilename: null,
     getFileData: null,
-    
-    open: function (url, handlers) {
-      if (this.$ws._ws === null) {
-        this.$ws._ws = new WebSocket(url);
-        this.$ws._ws.binaryType = "arraybuffer";
-        this.$ws._ws.onopen = handlers.onOpen;
-        this.$ws._ws.onmessage = handlers.onMessage;
-        this.$ws._ws.onclose = handlers.onClose;
+
+    open: function (context, url, handlers) {
+      if (context.$ws._ws === null) {
+      context.$ws._ws = new WebSocket(url);
+      context.$ws._ws.binaryType = "arraybuffer";
+      context.$ws._ws.onmessage = handlers.onMessage.bind(context);
+      context.$ws._ws.onopen = handlers.onOpen.bind(context);
+      context.$ws._ws.onclose = handlers.onClose.bind(context);
       }
     },
 
@@ -25,10 +27,12 @@ Messenger.install = function (Vue) {
       if (this.$ws._ws instanceof WebSocket)
         this.$ws._ws.close();
     },
+
     send: function (data) {
       if (this.$ws._ws instanceof WebSocket)
         this.$ws._ws.send(data)
     }
+
   }
 
 
