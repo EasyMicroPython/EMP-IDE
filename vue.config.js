@@ -2,9 +2,8 @@ const webpack = require('webpack')
 const MonacoWebpackPlugin = require('monaco-editor-webpack-plugin')
 
 module.exports = {
-  baseUrl: process.env.NODE_ENV === 'production'
-  ? '/static/'
-  : '/',
+  baseUrl: process.env.NODE_ENV === 'production' ?
+    '/static/' : '/',
   configureWebpack: {
     plugins: [
       new MonacoWebpackPlugin({
@@ -16,6 +15,9 @@ module.exports = {
       'vue': 'Vue',
       'muse-ui': 'MuseUI',
       'element-ui': 'ELEMENT'
-    }
+    },
+    node: {
+      process: false
+    },
   }
 }
