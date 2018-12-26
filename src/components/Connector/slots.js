@@ -1,25 +1,11 @@
 var slots = {
   methods: {
-    slotToggleTermVisible() {
-      this.termVisible = !this.termVisible;
+    slotToggleShow() {
+      this.show = !this.show;
     },
-
-    slotToggleConfig() {
-      this.showConfig = !this.showConfig;
-    },
-
-    slotResizeTerm() {
-      // this.term.resize(20,1);
-      this.term.fit();
-    },
-
-    slotClearTerm() {
-      this.term.clear();
-    },
-
     slotSendCommands(kwargs) {
       if (!this.tasklock) {
-        this.ws.send(kwargs.command);
+        this.$ws.send(kwargs.command);
         if (kwargs.command.startsWith(this.$emp.funcName(this.$emp.memoryAnalysing))) {
           this.$send(this.SIGNAL_LOCK(this));
         }
@@ -70,7 +56,7 @@ var slots = {
         // this.show_message("Sending " + put_file_name + "...");
         this.$toast.info("Sending " + kwargs.filename + "...");
         this.$send(this.SIGNAL_LOCK(this));
-        this.ws.send(rec);
+        this.$ws.send(rec);
       } else {
         this.$toast.error("IO busy");
       }
@@ -110,7 +96,7 @@ var slots = {
       this.getFilename = src_fname;
       this.getFileData = new Uint8Array(0);
       this.$toast.info("Getting " + this.getFilename + "...");
-      this.ws.send(rec);
+      this.$ws.send(rec);
     },
 
     slotDependsOnMemoryToGetFile(kwargs) {
@@ -121,8 +107,8 @@ var slots = {
       var fsize = kwargs.fsize;
 
       if (fsize < this.memLimit * mf) {
-        // this.ws.send('get_code(\'' + kwargs.filename + '\')\r');
-        this.ws.send(this.$emp.getCode(kwargs.filename));
+        // this.$ws.send('get_code(\'' + kwargs.filename + '\')\r');
+        this.$ws.send(this.$emp.getCode(kwargs.filename));
       } else {
         this.slotGetFile(kwargs);
       }

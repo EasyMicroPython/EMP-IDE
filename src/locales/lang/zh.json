@@ -5,6 +5,16 @@
         "Esc": "退出",
         "Click": "点击"
     },
+    "Connector": {
+        "DialogTitle": "连接到你的设备",
+        "URL": "URL",
+        "Password": "密码",
+        "Connect": "连接",
+        "Disconnect": "断开连接",
+        "Wifi": "WiFi",
+        "SerialPort": "串口",
+        "Type": "连接类型"
+    },
     "placeholder": {
         "Editor": "脚本文件",
         "Uploader": "上传文件",
@@ -29,7 +39,6 @@
         "Label": "输入以搜索"
     },
     "FolderTree": {
-      
         "Menu": {
             "File": [
                 {

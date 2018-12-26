@@ -1,16 +1,10 @@
 <template>
   <div class="term cli-scroll-bar"
     ref="terminal">
-    <config :show="showConfig"
-      :ws-status="$connected"
-      @connect="slotConnectToDevice"
-      @disconnect="slotDisconnect"
-      @hide="slotToggleConfig"></config>
   </div>
 </template>
 
 <script>
-import Config from "./Config.vue";
 import signals from "./signals.js";
 import slots from "./slots.js";
 import handleConnection from "./ws.js";
@@ -25,9 +19,6 @@ export default {
   name: "cli",
   mixins: [signals, slots, handleConnection],
   props: ["tasklock"],
-  components: {
-    Config
-  },
   data() {
     return {
       ws: null,
@@ -58,6 +49,7 @@ export default {
   methods: {
     initTerm() {
       this.term = new Terminal(this.termOptions);
+      this.$repl.term = this.term;
       let $terminal = this.$refs["terminal"];
       this.$nextTick(() => {
         this.term.open($terminal);

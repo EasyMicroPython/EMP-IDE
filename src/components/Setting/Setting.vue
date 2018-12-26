@@ -1,30 +1,38 @@
 <template>
-  <div>
-    <mu-dialog
-      :title="$t('Settings.Title')"
-      width="400"
-      max-width="80%"
-      :esc-press-close="false"
-      :overlay-close="false"
-      :open.sync="show"
-    >
-      <mu-flex direction="column">
-        <mu-text-field
-          :label="$t('Settings.FontSize')"
-          color="primary"
-          v-model="fontSize"
-          full-width
-        ></mu-text-field>
-        <mu-text-field :label="$t('Settings.MemoryLimit')" color="primary" full-width disabled></mu-text-field>
-        <mu-select label="Normal" v-model="$i18n.locale" full-width>
-          <mu-option v-for="option in options" :key="option" :label="option" :value="option"></mu-option>
-        </mu-select>
-      </mu-flex>
+  <mu-dialog :title="$t('Settings.Title')"
+    width="400"
+    max-width="80%"
+    :esc-press-close="false"
+    :overlay-close="false"
+    :open.sync="show">
+    <mu-flex direction="column">
+      <mu-text-field :label="$t('Settings.FontSize')"
+        color="primary"
+        v-model="fontSize"
+        full-width></mu-text-field>
+      <mu-text-field :label="$t('Settings.MemoryLimit')"
+        color="primary"
+        full-width
+        disabled></mu-text-field>
+      <mu-select label="Language"
+        v-model="$i18n.locale"
+        full-width>
+        <mu-option v-for="option in options"
+          :key="option"
+          :label="option"
+          :value="option"></mu-option>
+      </mu-select>
+    </mu-flex>
 
-      <mu-button slot="actions" flat color="primary" @click="apply">{{ $t('Action.Apply') }}</mu-button>
-      <mu-button slot="actions" flat color="primary" @click="esc">{{ $t('Action.Esc') }}</mu-button>
-    </mu-dialog>
-  </div>
+    <mu-button slot="actions"
+      flat
+      color="primary"
+      @click="apply">{{ $t('Action.Apply') }}</mu-button>
+    <mu-button slot="actions"
+      flat
+      color="primary"
+      @click="esc">{{ $t('Action.Esc') }}</mu-button>
+  </mu-dialog>
 </template>
 
 <script>
@@ -34,9 +42,9 @@ import slots from "./slots.js";
 export default {
   name: "setting",
   mixins: [signals, slots],
-  props: ["show"],
   data() {
     return {
+      show: false,
       fontSize: 16,
       // memLimit: 0.8,
       buttonText: "connect",
@@ -53,12 +61,14 @@ export default {
   methods: {
     apply() {
       this.setCookies();
-      this.$send(this.SIGNAL_TOGGLE_SETTINGS(this));
+      // this.$send(this.SIGNAL_TOGGLE_SETTINGS(this));
+      this.slotToggleShow();
       this.$send(this.SIGNAL_APPLY_FONTSIZE(this));
     },
 
     esc() {
       this.setCookies();
+      this.slotToggleShow();
       this.$send(this.SIGNAL_TOGGLE_SETTINGS(this));
     },
 

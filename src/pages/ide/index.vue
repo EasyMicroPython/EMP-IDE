@@ -52,10 +52,13 @@
       </split-pane>
     </mu-flex>
     <setting ref="setting"
-      @events="$connect"
-      :show="showSettings"></setting>
+      @events="$connect"></setting>
+
     <bottom-bar ref="bottomBar"
       @events="$connect"></bottom-bar>
+
+    <connector ref='connector'
+      @events="$connect"></connector>
   </mu-flex>
 </template>
 
@@ -73,6 +76,7 @@ import Pypi from "../../components/Pypi";
 import Editor from "../../components/Editor";
 import Cli from "../../components/Cli";
 import Setting from "../../components/Setting";
+import Connector from "../../components/Connector";
 
 import slots from "./slots";
 import signals from "./signals";
@@ -90,7 +94,8 @@ export default {
     Setting,
     Uploader,
     Finder,
-    Pypi
+    Pypi,
+    Connector
   },
 
   computed: {
@@ -115,13 +120,16 @@ export default {
     return {
       loading: false,
       showSettings: false,
+      showConnector: false,
       settings: null,
       switcher: 0,
       tasklock: false
     };
   },
 
-  beforeDestroy() {},
+  beforeDestroy() {
+    this.$stopRepl();
+  },
   mounted() {
     this.$i18n.locale = this.$cookie.get("lang");
   },
@@ -130,8 +138,7 @@ export default {
       this.$send(this.SIGNAL_RESIZE_TERM(this));
       this.$send(this.SIGNAL_RESIZE_EDITOR(this));
     }
-  },
-  watch: {}
+  }
 };
 </script>
 

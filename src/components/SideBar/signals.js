@@ -31,9 +31,9 @@ var signals = {
         }
       };
     },
-    SIGNAL_OPEN_CONFIG(sender, receiver = "cli", slot = "slotToggleConfig") {
+    SIGNAL_OPEN_CONFIG(sender, receiver = "connector", slot = "slotToggleShow") {
       return {
-        event: "toggleConfig",
+        event: "toggleConnector",
         sender: sender,
         receiver: receiver,
         slot: slot,
@@ -51,11 +51,7 @@ var signals = {
       };
     },
 
-    SIGNAL_TOGGLE_PANE(
-      sender,
-      receiver = "splitVertical",
-      slot = "slotTogglePane"
-    ) {
+    SIGNAL_TOGGLE_PANE(sender, receiver = "splitVertical", slot = "slotTogglePane") {
       return {
         event: "showPane",
         sender: sender,
@@ -65,11 +61,7 @@ var signals = {
       };
     },
 
-    SIGNAL_SHOW_PANE(
-      sender,
-      receiver = "splitVertical",
-      slot = "slotShowPane"
-    ) {
+    SIGNAL_SHOW_PANE(sender, receiver = "splitVertical", slot = "slotShowPane") {
       return {
         event: "hidePane",
         sender: sender,

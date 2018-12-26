@@ -1,10 +1,6 @@
 var slots = {
   methods: {
 
-    slotToggleSettings() {
-      this.showSettings = !this.showSettings;
-    },
-
     slotSwitch(kwargs) {
       this.switcher = kwargs.index;
     },
@@ -12,7 +8,7 @@ var slots = {
     slotLock() {
       this.tasklock = true;
     },
-    
+
     slotUnlock() {
       this.tasklock = false;
     }
