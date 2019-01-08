@@ -1,4 +1,4 @@
-import wsHandlers from './wshandler'
+import webRepl from './webRepl'
 
 
 var REPL = {};
@@ -8,13 +8,19 @@ const SERIALREPL = 1;
 
 REPL.install = function (Vue) {
   Vue.prototype.$ws = null;
-  // Vue.prototype.$connected = false;
-  Vue.prototype.$binaryState = 0;
-  Vue.prototype.$recData = null;
-  // Vue.prototype.$term = null;
+  // Vue.prototype.$binaryState = 0;
+  // Vue.prototype.$recData = null;
 
-
-  // Vue.prototype.$replType = WEBREPL;
+  // data transfer protocl
+  Vue.prototype.$dtp = {
+    binaryState: 0,
+    getFilename: null,
+    getFileData: null,
+    putFilename: null,
+    putFileData: null,
+    recData: null,
+    fragments: ""
+  }
 
   Vue.prototype.$repl = {
     passwd: "",
@@ -25,8 +31,7 @@ REPL.install = function (Vue) {
 
   };
 
-  Vue.prototype.$replStart = function (handlers = wsHandlers) {
-    // console.log(this);
+  Vue.prototype.$replStart = function (handlers = webRepl) {
 
     this.$ws = new WebSocket(this.$repl.url);
     this.$ws.binaryType = "arraybuffer";

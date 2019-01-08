@@ -10,7 +10,7 @@ var signals = {
         kwargs: {}
       };
     },
-    SIGNAL_CLEAR(sender, receiver = "cli", slot = "slotClearTerm") {
+    SIGNAL_CLEAR(sender, receiver = "terminal", slot = "slotClearTerm") {
       return {
         event: "clearTerm",
         sender: sender,
@@ -71,7 +71,7 @@ var signals = {
       };
     },
 
-    SIGNAL_GC_COLLECT(sender, receiver = "cli", slot = "slotSendCommands") {
+    SIGNAL_GC_COLLECT(sender, receiver = "terminal", slot = "slotSendCommands") {
       return {
         event: "gcCollect",
         sender: sender,

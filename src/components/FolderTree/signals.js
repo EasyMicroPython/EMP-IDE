@@ -1,6 +1,6 @@
 var signals = {
   methods: {
-    SIGNAL_CLEAR(sender, receiver = "cli", slot = "slotClearTerm") {
+    SIGNAL_CLEAR(sender, receiver = "terminal", slot = "slotClearTerm") {
       return {
         event: "clearTerm",
         sender: sender,
@@ -39,12 +39,7 @@ var signals = {
     },
 
     // 读大文件用, 内存不足的情况下求稳,但是现在无法设置下位机的数据帧大小
-    SIGNAL_GET_FILE(
-      sender,
-      filename = null,
-      receiver = "connector",
-      slot = "slotGetFile"
-    ) {
+    SIGNAL_GET_FILE(sender, filename = null, receiver = "connector", slot = "slotGetFile") {
       return {
         event: "getFile",
         sender: sender,
@@ -56,12 +51,7 @@ var signals = {
       };
     },
 
-    SIGNAL_SEND_COMMAND(
-      sender,
-      command,
-      receiver = "connector",
-      slot = "slotSendCommands"
-    ) {
+    SIGNAL_SEND_COMMAND(sender, command, receiver = "connector", slot = "slotSendCommands") {
       return {
         event: "sendComands",
         sender: sender,

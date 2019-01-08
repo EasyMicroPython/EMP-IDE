@@ -1,6 +1,6 @@
 var signals = {
   methods: {
-    SIGNAL_CLEAR_TERM(sender, receiver = 'cli', slot = 'slotClearTerm') {
+    SIGNAL_CLEAR_TERM(sender, receiver = 'terminal', slot = 'slotClearTerm') {
       return {
         event: "clearTerm",
         sender: sender,
@@ -21,7 +21,7 @@ var signals = {
       }
     },
 
-    SIGNAL_SAVE_FILE(sender, receiver = 'cli', slot = 'slotPutFile'){
+    SIGNAL_SAVE_FILE(sender, receiver = 'terminal', slot = 'slotPutFile'){
       var fileData = new TextEncoder().encode(
         this.code.replace(/\r\n/g, "\n")
       );

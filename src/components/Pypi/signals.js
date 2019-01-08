@@ -1,6 +1,6 @@
 var signals = {
   methods: {
-    SIGNAL_INSTALL(sender, pkg, receiver = "cli", slot = "slotSendCommands") {
+    SIGNAL_INSTALL(sender, pkg, receiver = "terminal", slot = "slotSendCommands") {
       return {
         event: "install",
         sender: sender,

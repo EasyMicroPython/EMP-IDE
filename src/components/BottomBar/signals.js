@@ -21,7 +21,7 @@ var signals = {
       }
     },
 
-    SIGNAL_ADJUST_MEMLIMIT(sender, receiver = 'cli', slot = 'slotAdjustMemLimit') {
+    SIGNAL_ADJUST_MEMLIMIT(sender, receiver = 'terminal', slot = 'slotAdjustMemLimit') {
       return {
         event: "adjustMemLimit",
         sender: sender,

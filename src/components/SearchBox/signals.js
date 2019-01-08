@@ -11,12 +11,7 @@ var signals = {
     //       }
     //     }
     //   },
-    SIGNAL_MEMORY_ANALYSING(
-      sender,
-      filename = null,
-      receiver = "cli",
-      slot = "slotSendCommands"
-    ) {
+    SIGNAL_MEMORY_ANALYSING(sender, filename = null, receiver = "terminal", slot = "slotSendCommands") {
       return {
         event: "memory_analysing",
         sender: sender,

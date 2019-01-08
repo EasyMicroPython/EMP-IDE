@@ -52,7 +52,7 @@ var slots = {
         }
 
         // initiate put
-        this.binaryState = 11;
+        this.$binaryState = 11;
         // this.show_message("Sending " + put_file_name + "...");
         this.$toast.info("Sending " + kwargs.filename + "...");
         this.$send(this.SIGNAL_LOCK(this));
@@ -92,7 +92,7 @@ var slots = {
         }
       }
       // initiate get
-      this.binaryState = 21;
+      this.$binaryState = 21;
       this.getFilename = src_fname;
       this.getFileData = new Uint8Array(0);
       this.$toast.info("Getting " + this.getFilename + "...");

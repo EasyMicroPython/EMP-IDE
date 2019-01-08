@@ -1,7 +1,7 @@
 var signals = {
   methods: {
-   
-    SIGNAL_CLEAR(sender, receiver = 'cli', slot = 'slotClearTerm') {
+
+    SIGNAL_CLEAR(sender, receiver = 'terminal', slot = 'slotClearTerm') {
       return {
         event: "clearTerm",
         sender: sender,
@@ -11,7 +11,7 @@ var signals = {
       }
     },
 
-    SIGNAL_RESIZE_TERM(sender, receiver = 'cli', slot = 'slotResizeTerm') {
+    SIGNAL_RESIZE_TERM(sender, receiver = 'terminal', slot = 'slotResizeTerm') {
       return {
         event: "onResize",
         sender: sender,
@@ -20,7 +20,7 @@ var signals = {
         kwargs: {}
       }
     },
- 
+
     SIGNAL_RESIZE_EDITOR(sender, receiver = 'editor', slot = 'slotResizeEditor') {
       return {
         event: "onResize",

@@ -22,9 +22,9 @@
           <uploader ref="uploader"
             v-show="showUploader"
             @events="$connect"></uploader>
-          <finder ref="finder"
+          <search-box ref="searchBox"
             v-show="showFinder"
-            @events="$connect"></finder>
+            @events="$connect"></search-box>
           <pypi ref="pypi"
             v-show="showPypi"
             @events="$connect"></pypi>
@@ -42,10 +42,10 @@
                 class="editor"></editor>
             </template>
             <template slot="paneR">
-              <cli ref="cli"
+              <terminal ref="terminal"
                 :tasklock="tasklock"
                 @events="$connect"
-                class="terminal-container"></cli>
+                class="terminal-container"></terminal>
             </template>
           </split-pane>
         </template>
@@ -70,11 +70,11 @@ import SideBar from "../../components/SideBar";
 
 import FolderTree from "../../components/FolderTree";
 import Uploader from "../../components/Uploader";
-import Finder from "../../components/Finder";
+import SearchBox from "../../components/SearchBox";
 import Pypi from "../../components/Pypi";
 
 import Editor from "../../components/Editor";
-import Cli from "../../components/Cli";
+import Terminal from "../../components/Terminal";
 import Setting from "../../components/Setting";
 import Connector from "../../components/Connector";
 
@@ -90,10 +90,10 @@ export default {
     FolderTree,
     Editor,
     SplitPane,
-    Cli,
+    Terminal,
     Setting,
     Uploader,
-    Finder,
+    SearchBox,
     Pypi,
     Connector
   },

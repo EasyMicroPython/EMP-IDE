@@ -1,7 +1,7 @@
 var signals = {
   methods: {
     //打开设置窗口,点击设置按钮时触发
-    SIGNAL_CONNECT_TO_DEVICE(sender, receiver = 'cli', slot = 'slotConnectToDevice') {
+    SIGNAL_CONNECT_TO_DEVICE(sender, receiver = 'terminal', slot = 'slotConnectToDevice') {
       return {
         event: "connectToDevice",
         sender: sender,
@@ -14,7 +14,7 @@ var signals = {
       }
     },
 
-    SIGNAL_DISCONNECT(sender, receiver = 'cli', slot = 'slotDisconnect') {
+    SIGNAL_DISCONNECT(sender, receiver = 'terminal', slot = 'slotDisconnect') {
       return {
         event: "disconnect",
         sender: sender,
@@ -46,7 +46,7 @@ var signals = {
       }
     },
 
-    // SIGNAL_ADJUST_MEMLIMIT(sender, receiver = 'cli', slot = 'slotAdjustMemLimit'){
+    // SIGNAL_ADJUST_MEMLIMIT(sender, receiver = 'terminal', slot = 'slotAdjustMemLimit'){
     //   return{
     //     event: "adjustMemLimit",
     //     sender: sender,

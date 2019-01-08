@@ -1,24 +1,32 @@
 <template>
   <div class="monaco-editor-container">
-    <mu-flex direction="column" class="monaco-editor-container">
-      <mu-flex class="editor-tabs" justify-content="start" align-items="center">
-        <mu-flex justify-content="start" align-items="center" class="editor-tabs-flex">
-          <mu-button v-if="openedFile" icon color="white" @click="saveFile">
+    <mu-flex direction="column"
+      class="monaco-editor-container">
+      <mu-flex class="editor-tabs"
+        justify-content="start"
+        align-items="center">
+        <mu-flex justify-content="start"
+          align-items="center"
+          class="editor-tabs-flex">
+          <mu-button v-if="openedFile"
+            icon
+            color="white"
+            @click="saveFile">
             <mu-icon value="save"></mu-icon>
           </mu-button>
           <p class="editor-tabs-title">
             <strong>{{title}}</strong>
           </p>
         </mu-flex>
-        <mu-flex justify-content="end" align-items="center" class="editor-tabs-flex"></mu-flex>
+        <mu-flex justify-content="end"
+          align-items="center"
+          class="editor-tabs-flex"></mu-flex>
       </mu-flex>
-      <monaco-editor
-        ref="editor"
+      <monaco-editor ref="editor"
         class="monaco-editor"
         v-model="code"
         :font-size="fontSize"
-        :sync-input="true"
-      ></monaco-editor>
+        :sync-input="true"></monaco-editor>
     </mu-flex>
   </div>
 </template>
@@ -30,7 +38,6 @@
 import MonacoEditor from "./MonacoEditor.vue";
 import signals from "./signals.js";
 import slots from "./slots.js";
-
 
 export default {
   mixins: [signals, slots],

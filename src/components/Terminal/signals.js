@@ -30,7 +30,7 @@ var signals = {
       }
     },
 
-    SIGNAL_UPDATE_FINDER(sender, data = null, receiver = 'finder', slot = 'slotUpdateFiles') {
+    SIGNAL_UPDATE_FINDER(sender, data = null, receiver = 'searchBox', slot = 'slotUpdateFiles') {
       return {
         event: "updateTree",
         sender: sender,
