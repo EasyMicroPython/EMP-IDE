@@ -149,14 +149,14 @@ let webRepl = {
     // if (this.$dtp.fragments.indexOf('[+emp pdu+]') > 0)
     //   console.log(this.$dtp.fragments);
     if (countString(this.$dtp.fragments, '[+emp pdu+]') === 2) {
-      console.log(this.$dtp.fragments.split('[+emp pdu+]')[1].indexOf('Wifi'));
-      console.log(this.$dtp.fragments.split('[+emp pdu+]')[1][52]);
-      console.log(this.$dtp.fragments.split('[+emp pdu+]')[1][53]);
-      console.log(this.$dtp.fragments.split('[+emp pdu+]')[1][54]);
-      console.log(this.$dtp.fragments.split('[+emp pdu+]')[1][55]);
-      console.log(this.$dtp.fragments.split('[+emp pdu+]')[1][56]);
-      console.log(this.$dtp.fragments.split('[+emp pdu+]')[1][57]);
-      console.log(JSON.parse(this.$dtp.fragments.split('[+emp pdu+]')[1]));
+
+      let raw_data1 = this.$dtp.fragments.split('[+emp pdu+]')[1];
+      
+      let raw_data2 = raw_data1.replace(/\r\n/g, '\\n');
+      let raw_data3 = raw_data2.replace(/\\n\\n/g, '');
+      console.log(raw_data3);
+      console.log(JSON.parse(raw_data3));
+
     }
   },
 
