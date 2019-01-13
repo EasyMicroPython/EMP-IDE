@@ -12,7 +12,8 @@ var slots = {
 
     slotShowCode(kwargs) {
       this.code = kwargs.code;
-      this.openedFile = kwargs.filename;
+      // this.openedFile = kwargs.filename;
+      this.openedFile = '/Test.py';
       this.$send(this.SIGNAL_UNLOCK(this));
       setTimeout(() => this.$send(this.SIGNAL_CLEAR_TERM(this)), 300);
       // this.$send(this.SIGNAL_CLEAR_TERM(this));

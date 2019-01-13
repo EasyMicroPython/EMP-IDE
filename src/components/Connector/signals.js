@@ -71,13 +71,12 @@ var signals = {
         slot: slot,
         kwargs: {
           code: data,
-          filename: this.getFilename
+          filename: this.$dtp.getFilename
         }
       }
     },
 
     SIGNAL_SHOW_CODES_PMAX(sender, data = null, receiver = 'editor', slot = "slotShowCode") {
-      console.log(data);
       return {
         event: "showCode",
         sender: sender,
