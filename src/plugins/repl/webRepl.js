@@ -229,23 +229,4 @@ let webRepl = {
   }
 }
 
-let countString = function (string, subString) {
-
-  string += "";
-  subString += "";
-  let n = 0;
-  let pos = 0;
-  if (subString.length <= 0)
-    return 0
-  while (true) {
-    pos = string.indexOf(subString, pos);
-    if (pos >= 0) {
-      n += 1;
-      pos += 1;
-
-    } else break
-  }
-  return n;
-};
-
 export default webRepl

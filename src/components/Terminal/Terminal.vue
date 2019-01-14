@@ -5,9 +5,8 @@
 </template>
 
 <script>
-import signals from "./signals.js";
+// import signals from "./signals.js";
 import slots from "./slots.js";
-import handleConnection from "./ws.js";
 import { Terminal } from "xterm";
 import * as fit from "xterm/lib/addons/fit/fit";
 import * as attach from "xterm/lib/addons/attach/attach";
@@ -17,17 +16,11 @@ Terminal.applyAddon(attach);
 
 export default {
   name: "cli",
-  mixins: [signals, slots, handleConnection],
+  mixins: [slots],
   props: ["tasklock"],
   data() {
     return {
-      ws: null,
-      wsConnected: false,
-      term: null,
-      recData: null,
-      passwd: null,
-      showConfig: false,
-      memLimit: 0.85,
+      term: null,  
       termOptions: {
         rows: 15,
         fontSize: 18,
@@ -40,9 +33,9 @@ export default {
       }
     };
   },
-  mounted: function() {
+  mounted: function () {
     window.addEventListener("resize", this.slotResizeTerm);
-    this.$nextTick(function() {
+    this.$nextTick(function () {
       this.initTerm();
     });
   },

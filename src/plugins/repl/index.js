@@ -26,7 +26,15 @@ REPL.install = function (Vue) {
     term: null,
     connected: false,
     connectionType: WEBREPL,
+    taskLock: false,
+  };
 
+  Vue.prototype.$lockRepl = function () {
+    this.$repl.taskLock = true;
+  };
+
+  Vue.prototype.$unlockRepl = function () {
+    this.$repl.taskLock = false;
   };
 
   Vue.prototype.$replStart = function () {
