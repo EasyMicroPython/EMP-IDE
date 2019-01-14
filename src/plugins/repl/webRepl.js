@@ -1,15 +1,17 @@
 import basicRepl from "./basicRepl"
 
 let webRepl = {
+  replExec: basicRepl.replExec,
   onOpen: basicRepl.onOpen,
   onClose: basicRepl.onClose,
+
   onMessage: function (event) {
     if (event.data instanceof ArrayBuffer) {
       var data = new Uint8Array(event.data);
       switch (this.$dtp.binaryState) {
         case 11:
           // first response for put
-          if (this.decodeResp(data) == 0) {
+          if (decodeResp(data) == 0) {
             // send file data in chunks
             for (
               var offset = 0; offset < this.$dtp.putFileData.length; offset += 1024
@@ -23,7 +25,7 @@ let webRepl = {
         case 12:
           // final response for put
           this.$send(this.SIGNAL_UNLOCK(this));
-          if (this.decodeResp(data) == 0) {
+          if (decodeResp(data) == 0) {
             this.$toast.success(
               "success! " +
               this.$dtp.putFilename +
@@ -47,7 +49,7 @@ let webRepl = {
 
         case 21:
           // first response for get
-          if (this.decodeResp(data) == 0) {
+          if (decodeResp(data) == 0) {
             this.$dtp.binaryState = 22;
             let rec = new Uint8Array(1);
             rec[0] = 0;
@@ -83,7 +85,7 @@ let webRepl = {
         case 23:
           // final response
           // this.$send(this.SIGNAL_UNLOCK(this)); 为什么在这里无法调用 send函数?
-          if (this.decodeResp(data) == 0) {
+          if (decodeResp(data) == 0) {
             this.$toast.success(
               "Got " +
               this.$dtp.getFilename +
@@ -104,48 +106,41 @@ let webRepl = {
           setTimeout(() => this.slotClearTerm(), 300);
           break;
       }
-    }
-    try {
-      // console.log(event.data)
-      this.$dtp.recData = JSON.parse(event.data);
-      if (this.$dtp.recData.func === this.$emp.funcName(this.$emp.tree)) {
-        this.$send(this.SIGNAL_UPDATE_TREE(this, [this.$dtp.recData.data]));
-        this.$send(this.SIGNAL_UPDATE_FINDER(this, this.$dtp.recData.data));
-        this.$send(this.SIGNAL_SHOW_PANE(this));
-      }
-      if (this.$dtp.recData.func === this.$emp.funcName(this.$emp.getCode))
-        this.$send(this.SIGNAL_SHOW_CODES_PMAX(this, this.$dtp.recData.data));
-      if (this.$dtp.recData.func === this.$emp.funcName(this.$emp.memoryAnalysing))
-        this.$send(
-          this.SIGNAL_DEPENDS_ON_MEMORY_TO_GET_FILE(this, this.$dtp.recData.data)
-        );
-      if (this.$dtp.recData.func === this.$emp.funcName(this.$emp.deviceInfo))
-        this.$send(this.SIGNAL_SHOW_SYS_INFO(this, this.$dtp.recData.data));
-      if (this.$dtp.recData.func === this.$emp.funcName(this.$emp.memoryStatus))
-        this.$send(this.SIGNAL_SHOW_MEMORY_STATUS(this, this.$dtp.recData.data));
-    } catch (e) {
-      // 容错处理放在这儿
-      if (event.data.indexOf("Traceback (most recent call last):") >= 0) {
-        this.$send(this.SIGNAL_UNLOCK(this));
-      }
-    }
-
-  },
-
-  decodeResp(data) {
-    if (data[0] == "W".charCodeAt(0) && data[1] == "B".charCodeAt(0)) {
-      var code = data[2] | (data[3] << 8);
-      return code;
     } else {
-      return -1;
+      try {
+        // console.log(event.data)
+        this.$dtp.recData = JSON.parse(event.data);
+        if (this.$dtp.recData.func === this.$emp.funcName(this.$emp.tree)) {
+          this.$send(this.SIGNAL_UPDATE_TREE(this, [this.$dtp.recData.data]));
+          this.$send(this.SIGNAL_UPDATE_FINDER(this, this.$dtp.recData.data));
+          this.$send(this.SIGNAL_SHOW_PANE(this));
+        }
+        if (this.$dtp.recData.func === this.$emp.funcName(this.$emp.getCode))
+          this.$send(this.SIGNAL_SHOW_CODES_PMAX(this, this.$dtp.recData.data));
+        if (this.$dtp.recData.func === this.$emp.funcName(this.$emp.memoryAnalysing))
+          this.$send(
+            this.SIGNAL_DEPENDS_ON_MEMORY_TO_GET_FILE(this, this.$dtp.recData.data)
+          );
+        if (this.$dtp.recData.func === this.$emp.funcName(this.$emp.deviceInfo))
+          this.$send(this.SIGNAL_SHOW_SYS_INFO(this, this.$dtp.recData.data));
+        if (this.$dtp.recData.func === this.$emp.funcName(this.$emp.memoryStatus))
+          this.$send(this.SIGNAL_SHOW_MEMORY_STATUS(this, this.$dtp.recData.data));
+      } catch (e) {
+        // 容错处理放在这儿
+        if (event.data.indexOf("Traceback (most recent call last):") >= 0) {
+          this.$send(this.SIGNAL_UNLOCK(this));
+        }
+      }
     }
+
   },
 
   putFile: function (kwargs) {
-    if (!this.tasklock) {
-      if (kwargs.fileData.length > 0) this.putFileData = kwargs.fileData;
+    if (!this.$repl.tasklock) {
+      this.$dtp.putFilename = kwargs.filename;
+      if (kwargs.fileData.length > 0) this.$dtp.putFileData = kwargs.fileData;
       else {
-        this.putFileData = new TextEncoder().encode(" ");
+        this.$dtp.putFileData = new TextEncoder().encode(" ");
         kwargs.fileData = new TextEncoder().encode(" ");
       }
 
@@ -181,7 +176,7 @@ let webRepl = {
       }
 
       // initiate put
-      this.$binaryState = 11;
+      this.$dtp.binaryState = 11;
       // this.show_message("Sending " + put_file_name + "...");
       this.$toast.info("Sending " + kwargs.filename + "...");
       this.$send(this.SIGNAL_LOCK(this));
@@ -192,6 +187,7 @@ let webRepl = {
   },
 
   getFile: function (kwargs) {
+    this.$dtp.getFilename = kwargs.filename;
     var src_fname = kwargs.filename;
     // WEBREPL_FILE = "<2sBBQLH64s"
     var rec = new Uint8Array(2 + 1 + 1 + 8 + 4 + 2 + 64);
@@ -221,11 +217,20 @@ let webRepl = {
       }
     }
     // initiate get
-    this.$binaryState = 21;
-    this.getFilename = src_fname;
-    this.getFileData = new Uint8Array(0);
-    this.$toast.info("Getting " + this.getFilename + "...");
+    this.$dtp.binaryState = 21;
+    this.$dtp.getFilename = src_fname;
+    this.$dtp.getFileData = new Uint8Array(0);
+    this.$toast.info("Getting " + this.$dtp.getFilename + "...");
     this.$ws.send(rec);
+  }
+}
+
+let decodeResp = function (data) {
+  if (data[0] == "W".charCodeAt(0) && data[1] == "B".charCodeAt(0)) {
+    var code = data[2] | (data[3] << 8);
+    return code;
+  } else {
+    return -1;
   }
 }
 

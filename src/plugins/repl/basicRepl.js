@@ -25,6 +25,17 @@ let basicRepl = {
             this.$repl.term.write("\r\n\x1b[31mDisconnected\x1b[m\r\n");
         }
     },
+    replExec: function (kwargs) {
+        if (!this.tasklock) {
+            this.$ws.send(kwargs.command);
+
+            // 如果是内存分析，则说明接下来是读取文件的操作，所以 上锁
+            if (kwargs.command.startsWith(this.$emp.funcName(this.$emp.memoryAnalysing))) {
+                this.$send(this.SIGNAL_LOCK(this));
+            }
+        } else this.$toast.error("IO busy");
+    }
+
 }
 
 export default basicRepl

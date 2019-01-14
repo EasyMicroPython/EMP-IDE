@@ -2,6 +2,7 @@ import basicRepl from "./basicRepl"
 
 
 let serialRepl = {
+    replExec: basicRepl.replExec,
     onOpen: basicRepl.onOpen,
     onClose: basicRepl.onClose,
     onMessage: function (event) {

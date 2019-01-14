@@ -26,16 +26,10 @@ REPL.install = function (Vue) {
     term: null,
     connected: false,
     connectionType: WEBREPL,
-    taskLock: false,
+    tasklock: false,
   };
 
-  Vue.prototype.$lockRepl = function () {
-    this.$repl.taskLock = true;
-  };
-
-  Vue.prototype.$unlockRepl = function () {
-    this.$repl.taskLock = false;
-  };
+  Vue.prototype.$replExec = null;
 
   Vue.prototype.$replStart = function () {
     let handlers = this.$repl.connectionType === SERIALREPL ? serialRepl : webRepl;
@@ -45,7 +39,9 @@ REPL.install = function (Vue) {
     this.$ws.onmessage = handlers.onMessage.bind(this);
     this.$ws.onopen = handlers.onOpen.bind(this);
     this.$ws.onclose = handlers.onClose.bind(this);
+    this.$replExec = handlers.replExec.bind(this);
 
+    this.$replSetupFTP(handlers);
   };
 
   Vue.prototype.$replStop = function () {
@@ -53,8 +49,8 @@ REPL.install = function (Vue) {
   };
 
   Vue.prototype.$replSetupFTP = function (handlers) {
-    this.$replPutFile = handlers.putFile;
-    this.$replGetFile = handlers.getFile;
+    this.$replPutFile = handlers.putFile.bind(this);
+    this.$replGetFile = handlers.getFile.bind(this);
   }
 
   Vue.prototype.$replPutFile = null;
