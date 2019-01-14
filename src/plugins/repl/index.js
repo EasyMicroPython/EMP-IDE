@@ -1,5 +1,5 @@
 import webRepl from './webRepl'
-
+import serialRepl from "./serialRepl"
 
 var REPL = {};
 
@@ -8,8 +8,6 @@ const SERIALREPL = 1;
 
 REPL.install = function (Vue) {
   Vue.prototype.$ws = null;
-  // Vue.prototype.$binaryState = 0;
-  // Vue.prototype.$recData = null;
 
   // data transfer protocl
   Vue.prototype.$dtp = {
@@ -31,8 +29,8 @@ REPL.install = function (Vue) {
 
   };
 
-  Vue.prototype.$replStart = function (handlers = webRepl) {
-
+  Vue.prototype.$replStart = function () {
+    let handlers = this.$repl.connectionType === SERIALREPL ? serialRepl : webRepl;
     this.$ws = new WebSocket(this.$repl.url);
     this.$ws.binaryType = "arraybuffer";
     this.$repl.term.attach(this.$ws, true, true);
@@ -44,7 +42,6 @@ REPL.install = function (Vue) {
 
   Vue.prototype.$replStop = function () {
     this.$ws.close();
-
   };
 
   Vue.prototype.$replSetupFTP = function (handlers) {

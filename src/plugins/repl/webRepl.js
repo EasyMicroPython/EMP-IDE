@@ -1,22 +1,8 @@
+import basicRepl from "./basicRepl"
+
 let webRepl = {
-  onOpen: function () {
-    this.$repl.term.focus();
-    this.$repl.term.write("Welcome to 1ZLAB-EMPIDE!\r\n");
-
-    if (this.$repl.connectionType === 0)
-      this.$ws.send(this.$repl.passwd + "\r");
-    this.$ws.send(this.$emp.deviceInfo());
-    this.$ws.send(this.$emp.memoryStatus());
-    this.$ws.send(this.$emp.tree());
-
-    this.$toast.success("WebREPL connected!");
-    if (this.$ws.readyState === 1) {
-      this.$send(this.SIGNAL_REPORT_CONNECTED(this));
-      this.$repl.connected = true;
-      this.connected = true;
-    }
-  },
-
+  onOpen: basicRepl.onOpen,
+  onClose: basicRepl.onClose,
   onMessage: function (event) {
     if (event.data instanceof ArrayBuffer) {
       var data = new Uint8Array(event.data);
@@ -119,7 +105,6 @@ let webRepl = {
           break;
       }
     }
-    // console.log(event.data.length)
     try {
       // console.log(event.data)
       this.$dtp.recData = JSON.parse(event.data);
@@ -144,50 +129,7 @@ let webRepl = {
         this.$send(this.SIGNAL_UNLOCK(this));
       }
     }
-    this.$dtp.fragments += event.data;
-    // console.log(countString(this.$dtp.fragments, '[+emp pdu+]'));
-    // if (this.$dtp.fragments.indexOf('[+emp pdu+]') > 0)
-    //   console.log(this.$dtp.fragments);
-    if (countString(this.$dtp.fragments, '[+emp pdu+]') === 2) {
 
-      this.$dtp.fragments = this.$dtp.fragments.split('[+emp pdu+]')[1];
-
-      this.$dtp.fragments = this.$dtp.fragments.replace(/\r\n/g, '\\n');
-      this.$dtp.fragments = this.$dtp.fragments.slice(4, this.$dtp.fragments.length - 4);
-      console.log(this.$dtp.fragments);
-      let recData = JSON.parse(this.$dtp.fragments);
-      // console.log(recData.data);
-      if (recData.func === this.$emp.funcName(this.$emp.tree)) {
-        this.$send(this.SIGNAL_UPDATE_TREE(this, [recData.data]));
-        this.$send(this.SIGNAL_UPDATE_FINDER(this, recData.data));
-        this.$send(this.SIGNAL_SHOW_PANE(this));
-      }
-      if (recData.func === this.$emp.funcName(this.$emp.getCode)) {
-
-        this.$send(this.SIGNAL_SHOW_CODES_PMAX(this, recData));
-      }
-      if (recData.func === this.$emp.funcName(this.$emp.memoryAnalysing))
-        this.$send(
-          this.SIGNAL_DEPENDS_ON_MEMORY_TO_GET_FILE(this, recData.data)
-        );
-      if (recData.func === this.$emp.funcName(this.$emp.deviceInfo))
-        this.$send(this.SIGNAL_SHOW_SYS_INFO(this, recData.data));
-      if (recData.func === this.$emp.funcName(this.$emp.memoryStatus))
-        this.$send(this.SIGNAL_SHOW_MEMORY_STATUS(this, recData.data));
-
-      this.$dtp.fragments = "";
-
-    }
-  },
-
-  onClose: function () {
-    this.$repl.connected = false;
-    this.connected = false;
-    this.$send(this.SIGNAL_REPORT_DISCONNECTED(this));
-    this.$toast.error("Disconnected");
-    if (this.$repl.term) {
-      this.$repl.term.write("\r\n\x1b[31mDisconnected\x1b[m\r\n");
-    }
   },
 
   decodeResp(data) {
@@ -199,7 +141,92 @@ let webRepl = {
     }
   },
 
+  putFile: function (kwargs) {
+    if (!this.tasklock) {
+      if (kwargs.fileData.length > 0) this.putFileData = kwargs.fileData;
+      else {
+        this.putFileData = new TextEncoder().encode(" ");
+        kwargs.fileData = new TextEncoder().encode(" ");
+      }
 
+      var dest_fname = kwargs.filename;
+      var dest_fsize = kwargs.fileData.length;
+
+      // WEBREPL_FILE = "<2sBBQLH64s"
+      var rec = new Uint8Array(2 + 1 + 1 + 8 + 4 + 2 + 64);
+      rec[0] = "W".charCodeAt(0);
+      rec[1] = "A".charCodeAt(0);
+      rec[2] = 1; // put
+      rec[3] = 0;
+      rec[4] = 0;
+      rec[5] = 0;
+      rec[6] = 0;
+      rec[7] = 0;
+      rec[8] = 0;
+      rec[9] = 0;
+      rec[10] = 0;
+      rec[11] = 0;
+      rec[12] = dest_fsize & 0xff;
+      rec[13] = (dest_fsize >> 8) & 0xff;
+      rec[14] = (dest_fsize >> 16) & 0xff;
+      rec[15] = (dest_fsize >> 24) & 0xff;
+      rec[16] = dest_fname.length & 0xff;
+      rec[17] = (dest_fname.length >> 8) & 0xff;
+      for (var i = 0; i < 64; ++i) {
+        if (i < dest_fname.length) {
+          rec[18 + i] = dest_fname.charCodeAt(i);
+        } else {
+          rec[18 + i] = 0;
+        }
+      }
+
+      // initiate put
+      this.$binaryState = 11;
+      // this.show_message("Sending " + put_file_name + "...");
+      this.$toast.info("Sending " + kwargs.filename + "...");
+      this.$send(this.SIGNAL_LOCK(this));
+      this.$ws.send(rec);
+    } else {
+      this.$toast.error("IO busy");
+    }
+  },
+
+  getFile: function (kwargs) {
+    var src_fname = kwargs.filename;
+    // WEBREPL_FILE = "<2sBBQLH64s"
+    var rec = new Uint8Array(2 + 1 + 1 + 8 + 4 + 2 + 64);
+    rec[0] = "W".charCodeAt(0);
+    rec[1] = "A".charCodeAt(0);
+    rec[2] = 2; // get
+    rec[3] = 0;
+    rec[4] = 0;
+    rec[5] = 0;
+    rec[6] = 0;
+    rec[7] = 0;
+    rec[8] = 0;
+    rec[9] = 0;
+    rec[10] = 0;
+    rec[11] = 0;
+    rec[12] = 0;
+    rec[13] = 0;
+    rec[14] = 0;
+    rec[15] = 0;
+    rec[16] = src_fname.length & 0xff;
+    rec[17] = (src_fname.length >> 8) & 0xff;
+    for (var i = 0; i < 64; ++i) {
+      if (i < src_fname.length) {
+        rec[18 + i] = src_fname.charCodeAt(i);
+      } else {
+        rec[18 + i] = 0;
+      }
+    }
+    // initiate get
+    this.$binaryState = 21;
+    this.getFilename = src_fname;
+    this.getFileData = new Uint8Array(0);
+    this.$toast.info("Getting " + this.getFilename + "...");
+    this.$ws.send(rec);
+  }
 }
 
 let countString = function (string, subString) {
