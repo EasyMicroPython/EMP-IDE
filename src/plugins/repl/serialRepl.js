@@ -7,11 +7,11 @@ let serialRepl = {
     onClose: basicRepl.onClose,
     onMessage: function (event) {
         this.$dtp.fragments += event.data;
-        if (countString(this.$dtp.fragments, '[+emp pdu+]') === 2) {
+        if (countString(this.$dtp.fragments, '==> PDU') === 2) {
 
-            this.$dtp.fragments = this.$dtp.fragments.split('[+emp pdu+]')[1];
+            this.$dtp.fragments = this.$dtp.fragments.split('==> PDU')[1];
             this.$dtp.fragments = this.$dtp.fragments.replace(/\r\n/g, '\\n');
-            this.$dtp.fragments = this.$dtp.fragments.slice(4, this.$dtp.fragments.length - 4);
+            this.$dtp.fragments = this.$dtp.fragments.slice(10, this.$dtp.fragments.length - 4);
             // eslint-disable-next-line
             console.log(this.$dtp.fragments);
             let recData = JSON.parse(this.$dtp.fragments);
