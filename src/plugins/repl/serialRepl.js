@@ -13,7 +13,7 @@ let serialRepl = {
             this.$dtp.fragments = this.$dtp.fragments.replace(/\r\n/g, '\\n');
             this.$dtp.fragments = this.$dtp.fragments.slice(10, this.$dtp.fragments.length - 4);
             // eslint-disable-next-line
-            console.log(this.$dtp.fragments);
+            // console.log(this.$dtp.fragments);
             let recData = JSON.parse(this.$dtp.fragments);
 
             if (recData.func === this.$emp.funcName(this.$emp.tree)) {
@@ -23,7 +23,7 @@ let serialRepl = {
             }
             if (recData.func === this.$emp.funcName(this.$emp.getCode)) {
 
-                this.$send(this.SIGNAL_SHOW_CODES_PMAX(this, recData));
+                this.$send(this.SIGNAL_SHOW_CODES_PMAX(this, recData.data));
             }
             if (recData.func === this.$emp.funcName(this.$emp.memoryAnalysing))
                 this.$send(
@@ -38,8 +38,11 @@ let serialRepl = {
         }
     },
 
-    putFile: function () {
-
+    putFile: function (kwargs) {
+        let fileData = new TextDecoder("utf-8").decode(kwargs.fileData);
+        // console.log(typeof kwargs.fileData);
+        this.$ws.send('EnterRawRepl');
+        this.$ws.send(`{"put":"${kwargs.filename}","data":"${fileData.replace(/"/g, '\\"')}"}`);
     },
 
     getFile: function () {
@@ -66,5 +69,6 @@ let countString = function (string, subString) {
     }
     return n;
 };
+
 
 export default serialRepl

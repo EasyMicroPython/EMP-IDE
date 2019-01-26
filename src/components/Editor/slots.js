@@ -12,11 +12,10 @@ var slots = {
 
     slotShowCode(kwargs) {
       this.code = kwargs.code;
+      // if (this.$repl.connectionType === 1) this.code = this.code.slice(1, this.code.length - 2)
       this.openedFile = this.$dtp.getFilename;
-      // this.openedFile = '/Test.py';
       this.$send(this.SIGNAL_UNLOCK(this));
       setTimeout(() => this.$send(this.SIGNAL_CLEAR_TERM(this)), 300);
-      // this.$send(this.SIGNAL_CLEAR_TERM(this));
     },
 
     slotApplyFontSize(kwargs) {
