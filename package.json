@@ -22,7 +22,7 @@
     "vue-cookie": "^1.1.4",
     "vue-i18n": "^8.4.0",
     "vue-router": "^3.0.1",
-    "xterm": "^3.8.0"
+    "xterm": "^3.9.2"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^3.2.0",
