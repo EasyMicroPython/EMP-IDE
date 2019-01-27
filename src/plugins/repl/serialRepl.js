@@ -32,7 +32,6 @@ let serialRepl = {
                 this.$send(this.SIGNAL_SHOW_PANE(this));
             }
             if (recData.func === this.$emp.funcName(this.$emp.getCode)) {
-
                 this.$send(this.SIGNAL_SHOW_CODES_PMAX(this, recData.data));
             }
             if (recData.func === this.$emp.funcName(this.$emp.memoryAnalysing))

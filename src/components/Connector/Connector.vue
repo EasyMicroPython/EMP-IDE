@@ -59,7 +59,7 @@ export default {
       type: 0,
       show: false,
       connected: false,
-      memLimit: 0.00001,
+      memLimit: 0.85,
     };
   },
   mounted: function () {
