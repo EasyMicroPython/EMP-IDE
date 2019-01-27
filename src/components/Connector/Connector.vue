@@ -15,14 +15,16 @@
           :key="option"
           :label="option"></mu-option>
       </mu-select>
-      <mu-auto-complete :data="espIP"
+      <mu-auto-complete v-show="type===0"
+        :data="espIP"
         :label="$t('Connector.URL')"
         :max-search-results="5"
         placeholder="ws://192.168.xxx.xxx:8266/"
         full-width
         v-model="url"
         open-on-focus></mu-auto-complete>
-      <mu-text-field :label="$t('Connector.Password')"
+      <mu-text-field v-show="type===0"
+        :label="$t('Connector.Password')"
         color="primary"
         v-model="passwd"
         full-width
