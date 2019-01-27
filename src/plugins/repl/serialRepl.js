@@ -6,7 +6,17 @@ let serialRepl = {
     onOpen: basicRepl.onOpen,
     onClose: basicRepl.onClose,
     onMessage: function (event) {
+        try {
+            let recData = JSON.parse(event.data);
+            if (recData.func === this.$emp.funcName(this.$emp.getCode)) {
+                this.$send(this.SIGNAL_SHOW_CODES_PMAX(this, recData.data));
+            }
+        } catch (error) {
+            // 
+        }
+
         this.$dtp.fragments += event.data;
+
         if (countString(this.$dtp.fragments, '==> PDU') === 2) {
 
             this.$dtp.fragments = this.$dtp.fragments.split('==> PDU')[1];
@@ -36,6 +46,7 @@ let serialRepl = {
 
             this.$dtp.fragments = "";
         }
+
     },
 
     putFile: function (kwargs) {
@@ -45,8 +56,10 @@ let serialRepl = {
         this.$ws.send(`{"put":"${kwargs.filename}","data":"${fileData.replace(/"/g, '\\"')}"}`);
     },
 
-    getFile: function () {
-
+    getFile: function (kwargs) {
+        // let filename = kwargs.filename;
+        this.$ws.send('EnterRawRepl');
+        this.$ws.send(`{"get":"${kwargs.filename}"}`)
     }
 }
 
