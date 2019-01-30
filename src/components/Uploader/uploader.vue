@@ -55,7 +55,7 @@ export default {
       that.putFilename.push(f.name);
 
       let reader = new FileReader();
-      reader.onload = function (e) {
+      reader.onload = function(e) {
         that.putFileData.push(new Uint8Array(e.target.result));
       };
       reader.readAsArrayBuffer(f);
@@ -63,14 +63,13 @@ export default {
 
     handleFiles(evt) {
       this.files = evt.target.files;
-      console.log(this.files);
       let that = this;
       // Get the file info and load its data.
       for (let i = 0; i < this.files.length; i++) {
         let f = this.files[i];
         that.putFilename.push(f.name);
         let reader = new FileReader();
-        reader.onload = function (e) {
+        reader.onload = function(e) {
           that.putFileData.push(new Uint8Array(e.target.result));
         };
         reader.readAsArrayBuffer(f);
