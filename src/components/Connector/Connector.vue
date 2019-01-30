@@ -59,16 +59,16 @@ export default {
       type: 0,
       show: false,
       connected: false,
-      memLimit: 0.85,
+      memLimit: 0.85
     };
   },
-  mounted: function () {
-    this.$nextTick(function () {
+  mounted: function() {
+    this.$nextTick(function() {
       this.init();
     });
   },
   computed: {
-    buttonText: function () {
+    buttonText: function() {
       if (!this.connected) {
         return this.$t("Connector.Connect");
       } else {
@@ -83,7 +83,7 @@ export default {
         this.espIP.push(this.$cookie.get("url"));
       }
       let that = this;
-      axios.get("http://www.1zlab.com/ide/get/ip/").then(function (rsp) {
+      axios.get("http://www.1zlab.com/ide/get/ip/").then(function(rsp) {
         let records = rsp.data.ip.map(_ip => `ws://${_ip}:8266`).slice(0, -1);
         that.espIP.push(...records);
         that.url = that.espIP[that.espIP.length - 1];

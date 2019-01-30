@@ -13,7 +13,7 @@
       <mu-text-field :label="$t('Settings.MemoryLimit')"
         color="primary"
         full-width
-        disabled></mu-text-field>
+        v-model="memLimit"></mu-text-field>
       <mu-select label="Language"
         v-model="$i18n.locale"
         full-width>
@@ -46,7 +46,7 @@ export default {
     return {
       show: false,
       fontSize: 16,
-      // memLimit: 0.8,
+      memLimit: "0.85",
       buttonText: "connect",
       webSocketStatus: false,
       options: ["en-US", "zh-CN"]
@@ -64,6 +64,7 @@ export default {
       // this.$send(this.SIGNAL_TOGGLE_SETTINGS(this));
       this.slotToggleShow();
       this.$send(this.SIGNAL_APPLY_FONTSIZE(this));
+      this.$send(this.SIGNAL_ADJUST_MEMLIMIT(this));
     },
 
     esc() {

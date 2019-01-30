@@ -46,17 +46,17 @@ var signals = {
       }
     },
 
-    // SIGNAL_ADJUST_MEMLIMIT(sender, receiver = 'terminal', slot = 'slotAdjustMemLimit'){
-    //   return{
-    //     event: "adjustMemLimit",
-    //     sender: sender,
-    //     receiver: receiver,
-    //     slot: slot,
-    //     kwargs: {
-    //       memLimit: this.fontSize
-    //     }
-    //   }
-    // }
+    SIGNAL_ADJUST_MEMLIMIT(sender, receiver = 'connector', slot = 'slotAdjustMemLimit') {
+      return {
+        event: "adjustMemLimit",
+        sender: sender,
+        receiver: receiver,
+        slot: slot,
+        kwargs: {
+          memLimit: this.memLimit
+        }
+      }
+    }
 
   }
 }

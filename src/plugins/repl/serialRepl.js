@@ -11,6 +11,10 @@ let serialRepl = {
             if (recData.func === this.$emp.funcName(this.$emp.getCode)) {
                 this.$send(this.SIGNAL_SHOW_CODES_PMAX(this, recData.data));
             }
+            if (recData.func === 'put_file') {
+                setTimeout(() => this.$send(this.SIGNAL_PUT_NEXT_FILE(this)), 300);
+                setTimeout(() => this.$send(this.SIGNAL_CLEAR_TERM(this)), 300);
+            }
         } catch (error) {
             // 
         }
@@ -52,13 +56,15 @@ let serialRepl = {
         let fileData = new TextDecoder("utf-8").decode(kwargs.fileData);
         // console.log(typeof kwargs.fileData);
         this.$ws.send('EnterRawRepl');
-        this.$ws.send(`{"put":"${kwargs.filename}","data":"${fileData.replace(/"/g, '\\"')}"}`);
+        this.$ws.send(`PutFile:${kwargs.filename}:${fileData}`);
+
+        // this.$ws.send(`PutFile:${kwargs.filename}:${fileData.replace(/"/g, '\\"')}"}`);
     },
 
     getFile: function (kwargs) {
         // let filename = kwargs.filename;
         this.$ws.send('EnterRawRepl');
-        this.$ws.send(`{"get":"${kwargs.filename}"}`)
+        this.$ws.send(`GetFile:${kwargs.filename}`)
     }
 }
 
