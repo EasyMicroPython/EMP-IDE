@@ -35,7 +35,7 @@
 <script>
 // this.editor.updateOptions({readOnly: val})
 // import readme from "../../readme.js";
-import MonacoEditor from "./MonacoEditor.vue";
+import MonacoEditor from "./monaco-editor-cdn";
 import signals from "./signals.js";
 import slots from "./slots.js";
 
