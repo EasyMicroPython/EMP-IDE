@@ -113,9 +113,12 @@ export default {
       this.monaco = window.monaco
       this.$emit('editorDidMount', this.editor)
       this.editor.onDidChangeModelContent(() => {
-        const value = this.editor.getValue()
-        if (this.value !== value) {
-          this.$emit('input', value)
+        let that = this
+        if (this.syncInput) {
+          this.editor.onDidChangeModelContent(function() {
+            that.buffer = that.editor.getValue()
+            that.$emit('input', that.buffer)
+          })
         }
       })
     },
@@ -125,7 +128,7 @@ export default {
     },
 
     layout() {
-      this.editor.layout();
+      this.editor.layout()
     }
   }
 }
