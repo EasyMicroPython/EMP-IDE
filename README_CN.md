@@ -30,7 +30,7 @@ coming...
 
 ![Logo](./src/assets/logo.png)
 
-- 邮箱: fuermohao@outlook.com
+- 邮箱: singein@outlook.com
 - QQ 群: 218214240
 
 ## License
