@@ -1,4 +1,4 @@
-let basicRepl = {
+let basicREPL = {
     onOpen: function () {
         this.$repl.term.focus();
         this.$repl.term.write("Welcome to 1ZLAB-EMPIDE!\r\n");
@@ -28,7 +28,7 @@ let basicRepl = {
     replExec: function (kwargs) {
         if (!this.tasklock) {
             this.$ws.send(kwargs.command);
-
+            // TODO 这里的锁可能会导致问题，后面排查下
             // 如果是内存分析，则说明接下来是读取文件的操作，所以 上锁
             if (kwargs.command.startsWith(this.$emp.funcName(this.$emp.memoryAnalysing))) {
                 this.$send(this.SIGNAL_LOCK(this));
@@ -38,4 +38,4 @@ let basicRepl = {
 
 }
 
-export default basicRepl
+export default basicREPL

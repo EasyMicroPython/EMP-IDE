@@ -1,9 +1,9 @@
-import basicRepl from "./basicRepl"
+import basicREPL from "./basicREPL"
 
 let webRepl = {
-  replExec: basicRepl.replExec,
-  onOpen: basicRepl.onOpen,
-  onClose: basicRepl.onClose,
+  replExec: basicREPL.replExec,
+  onOpen: basicREPL.onOpen,
+  onClose: basicREPL.onClose,
 
   onMessage: function (event) {
     if (event.data instanceof ArrayBuffer) {

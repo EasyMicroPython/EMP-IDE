@@ -1,10 +1,10 @@
-import basicRepl from "./basicRepl"
+import basicREPL from "./basicREPL"
 
 
 let serialRepl = {
-    replExec: basicRepl.replExec,
-    onOpen: basicRepl.onOpen,
-    onClose: basicRepl.onClose,
+    replExec: basicREPL.replExec,
+    onOpen: basicREPL.onOpen,
+    onClose: basicREPL.onClose,
     onMessage: function (event) {
         try {
             let recData = JSON.parse(event.data);
