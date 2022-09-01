@@ -16,6 +16,7 @@ var slots = {
     slotShowSysInfo(kwargs) {
       this.sysInfo = kwargs.data;
       if (kwargs.data.platform === 'esp8266') {
+        // todo
         this.$send(this.SIGNAL_ADJUST_MEMLIMIT(this))
       }
     }
