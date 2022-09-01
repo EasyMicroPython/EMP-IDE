@@ -1,5 +1,5 @@
 <template>
-  <div>ERROR: {{errorCode}}</div>
+  <div>EMP IDE ERROR: {{errorCode}}</div>
 </template>
 
 <script>
