@@ -26,6 +26,9 @@ let basicREPL = {
         }
     },
     replExec: function (kwargs) {
+        if (!this.$repl.connected) {
+            this.tasklock = false;
+        }
         if (!this.tasklock) {
             this.$ws.send(kwargs.command);
             // TODO 这里的锁可能会导致问题，后面排查下
